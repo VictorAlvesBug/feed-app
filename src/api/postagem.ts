@@ -1,21 +1,74 @@
-import { PostagemType } from "../components/Postagem"
+import axios, { AxiosResponse } from 'axios';
+import { MidiaType, PostagemType } from "../components/Postagem"
+
+type HomeType = {
+    front_default: string;
+};
+
+type OtherType = {
+    home: HomeType;
+};
+
+type SpritesType = {
+    other: OtherType;
+};
+
+type TypeType = {
+    name: string;
+};
+
+type SinglePokemonType = {
+    name: string;
+    order: number;
+    sprites: SpritesType;
+    types: TypeType[];
+};
+
+type PokemonItemType = {
+    name: string;
+    url: string;
+};
+
+type ManyPokemonsType = {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: PokemonItemType[];
+};
+
+async function pokemonToPostagem (pokemon: PokemonItemType) {
+    const pokemonData = 
+        await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+        .then((response: AxiosResponse<SinglePokemonType>) => {
+            return response.data;
+        })
+        .catch((error) => {
+        throw new Error(error);
+        });
+
+    return {
+        id: pokemonData.types.map(type => type.name).join(', '),
+        criador: pokemonData.name,
+        listaMidias: [{  tipo: 'foto', url: pokemonData.sprites.other.home.front_default }] as MidiaType[],
+        qtdeCurtidas: 5,
+        legenda: pokemonData.name
+    } as PostagemType;
+}
 
 export function getPostagens() {
     return new Promise((resolve: (value: PostagemType[]) => void, reject) => {
-        setTimeout(() => {
-            const listaPostagens: PostagemType[] = [];
+        setTimeout(async () => {
+            const getAllResponse = 
+                await axios.get('https://pokeapi.co/api/v2/pokemon/')
+                .then((response: AxiosResponse<ManyPokemonsType>) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                  throw new Error(error);
+                });
 
-            Array(10).fill(0).forEach((item, indice) => {
-                listaPostagens.push({
-                    id: `Post #${indice + 1}`,
-                    criador: `Criador #${(indice % 3) + 1}`,
-                    listaMidias: [{
-                        tipo: 'foto',
-                        url: `http://lorempixel.com.br/400/400/?${Math.floor(Math.random() * 100)}`
-                    }]
-                } as PostagemType)
-            })
-
+            const listaPostagens: PostagemType[] = await Promise.all(getAllResponse.results.map(pokemonToPostagem));
+                
             resolve(listaPostagens);
         }, 100)
     })

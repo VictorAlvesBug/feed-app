@@ -25,8 +25,8 @@ export default function Post({ postagem }: PostagemProps) {
       <div className='flex justify-start items-center h-10 p-1'>
         <span className=''>{postagem.criador}</span>
       </div>
-    <div className='w-full aspect-square bg-red-300'>
-      {/* <img className='w-full' alt='Imagem de exemplo' src={postagem.listaMidias[0].url}/> */}
+    <div className='w-full aspect-square'>
+      <img className='w-full' alt='Imagem de exemplo' src={postagem.listaMidias[0].url}/>
     </div>
     </div>
   )
