@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { MidiaType, PostagemType } from "../components/Postagem"
+import { MidiaType, PostagemType } from "../components/Postagem/types"
 
 type HomeType = {
     front_default: string;
@@ -48,10 +48,10 @@ async function pokemonToPostagem (pokemon: PokemonItemType) {
 
     return {
         id: pokemonData.types.map(type => type.name).join(', '),
-        criador: pokemonData.name,
+        autor: pokemonData.name,
         listaMidias: [{  tipo: 'foto', url: pokemonData.sprites.other.home.front_default }] as MidiaType[],
-        qtdeCurtidas: 5,
-        legenda: pokemonData.name
+        qtdeCurtidas: Math.floor(Math.random() * 1000),
+        legenda: 'Essa é a legenda do post 😃'
     } as PostagemType;
 }
 

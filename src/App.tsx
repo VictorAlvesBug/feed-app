@@ -1,9 +1,9 @@
 import React from 'react';
-import Feed from './components/Feed';
+import HomePage from './pages/Home/HomePage';
 
 function App() {
   return (
-    <Feed/>
+    <HomePage/>
   );
 }
 

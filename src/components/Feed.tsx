@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Postagem, { PostagemType } from './Postagem';
+import { PostagemType } from './Postagem/types';
 import { getPostagens } from '../api/postagem';
+import ListaPostagens from './ListaPostagens';
 
 export default function Feed() {
     const [postagens, setPostagens] = useState<PostagemType[]>([]);
@@ -19,10 +20,6 @@ useEffect(() => {
 }, [setPostagens]);
 
   return (
-    <div className='p-3 flex flex-col gap-3'>
-        {postagens.map(postagem => {
-            return <Postagem postagem={postagem}/>
-        })}
-    </div>
+        <ListaPostagens postagens={postagens}/>
   )
 }
