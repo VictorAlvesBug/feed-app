@@ -1,9 +1,18 @@
-import React from 'react';
-import HomePage from './pages/Home/HomePage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
-    <HomePage/>
+    // <Home/>
+    // <SignUp />
+
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignUp />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 

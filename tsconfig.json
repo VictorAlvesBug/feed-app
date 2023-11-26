@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "types": ["axios"],
     "target": "es5",
     "lib": [

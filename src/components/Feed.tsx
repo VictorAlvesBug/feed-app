@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { PostagemType } from './Postagem/types';
-import { getPostagens } from '../api/postagem';
+import { getPostagens } from 'api/postagem';
 import ListaPostagens from './ListaPostagens';
+import { PostagemSimplesType } from 'types/postagemTypes';
 
 export default function Feed() {
-    const [postagens, setPostagens] = useState<PostagemType[]>([]);
+    const [postagens, setPostagens] = useState<PostagemSimplesType[]>([]);
 
 useEffect(() => {
     const buscarPostagens = async () => {
