@@ -7,6 +7,7 @@ function App() {
     // <Home/>
     // <SignUp />
 
+    <
     <Router>
       <Routes>
         <Route path="/" element={<SignUp />} />
