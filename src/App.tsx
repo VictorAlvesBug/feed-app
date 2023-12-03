@@ -1,19 +1,21 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import SignUp from './pages/SignUp';
+import Register from './pages/Register';
+
+import { CurrentUserProvider } from 'context/CurrentUserContext';
+import Login from 'pages/Login';
 
 function App() {
   return (
-    // <Home/>
-    // <SignUp />
-
-    <
+    <CurrentUserProvider state={null}>
     <Router>
       <Routes>
-        <Route path="/" element={<SignUp />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
       </Routes>
     </Router>
+    </CurrentUserProvider>
   );
 }
 

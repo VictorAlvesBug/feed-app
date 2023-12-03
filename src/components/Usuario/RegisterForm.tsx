@@ -1,11 +1,12 @@
 import { cadastrarUsuario } from 'api/usuario';
+import Button from 'components/ui/Button';
 import Input from 'components/ui/Input';
-import useLocalStorage from 'hooks/useLocalStorage';
+import { useLogin } from 'context/CurrentUserContext';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UsuarioCadastroType } from 'types/usuarioTypes';
 
-export default function SignUpForm() {
+export default function RegisterForm() {
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState<UsuarioCadastroType>(
@@ -16,22 +17,15 @@ export default function SignUpForm() {
     }
   );
 
-  const [usuarioLogado, setUsuarioLogado] = useLocalStorage<UsuarioCadastroType>(
-    'usuarioLogado',
-    {
-      firstName: '',
-      lastName: '',
-      email: '',
-    }
-  );
+  const login = useLogin();
 
   const criarConta = async () => {
     const usuarioCadastrado = await cadastrarUsuario(usuario);
 
     if(usuarioCadastrado){
-      setUsuarioLogado()
+      login(usuarioCadastrado)
+      navigate('/home')
     }
-    //navigate('/home')
   };
 
   return (
@@ -60,12 +54,18 @@ export default function SignUpForm() {
           setUsuario((prev) => ({ ...prev, email: target.value }))
         }
       />
-      <button
-        className="self-center w-full py-2 border text-cor-texto-principal bg-cor-fundo hover:bg-cor-fundo-claro border-cor-borda"
+      <Button
+        className="self-center w-full py-2 text-cor-texto-principal"
+        onClick={() => navigate('/')}
+      >
+        Já tenho uma conta
+      </Button>
+      <Button
+        className="self-center w-full py-2 text-cor-texto-principal"
         onClick={criarConta}
       >
         Criar
-      </button>
+      </Button>
     </div>
   );
 }

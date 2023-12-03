@@ -1,4 +1,4 @@
-import { UsuarioCadastroType, UsuarioSimplesType, UsuarioType } from "types/usuarioTypes";
+import { UsuarioCadastroType, UsuarioLoginType, UsuarioSimplesType, UsuarioType } from "types/usuarioTypes";
 import { getAll, getOne, post } from './dummyApi';
 
 export function listarUsuarios(): Promise<UsuarioType[]> {
@@ -10,7 +10,7 @@ export function listarUsuarios(): Promise<UsuarioType[]> {
         });
 }
 
-export function entrarComUsuario(email: string): Promise<UsuarioType | undefined> {
+export function retornarUsuarioPorEmail(email: string): Promise<UsuarioType | undefined> {
     return listarUsuarios()
         .then(listaUsuarios => {
             return listaUsuarios.find(usuario => usuario.email === email)
@@ -18,5 +18,9 @@ export function entrarComUsuario(email: string): Promise<UsuarioType | undefined
 }
 
 export function cadastrarUsuario(usuario: UsuarioCadastroType): Promise<UsuarioType> {
+    const usuarioJaCadastrado = retornarUsuarioPorEmail(usuario.email);
+    if(usuarioJaCadastrado !== undefined){
+        return usuarioJaCadastrado;
+    }
     return post<UsuarioCadastroType, UsuarioType>('user/create', usuario);
 }
